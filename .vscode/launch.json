@@ -8,11 +8,7 @@
             "url": "https://www.boaterexam.com/",
             "webRoot": "${workspaceFolder}",
             "runtimeExecutable": "stable",
-            "runtimeArgs": [
-                "--disable-extensions-except=${workspaceFolder}",
-                "--load-extension=${workspaceFolder}",
-                "--user-data-dir=${workspaceFolder}/.vscode/chrome-profile"
-            ]
+            "runtimeArgs": ["--load-extension=${workspaceFolder}"]
         }
     ]
 }
