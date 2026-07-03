@@ -7,6 +7,7 @@
             "request": "launch",
             "url": "https://www.boaterexam.com/",
             "webRoot": "${workspaceFolder}/dist",
+            "preLaunchTask": "npm: build",
             "runtimeExecutable": "${workspaceFolder}/chrome/mac_arm-150.0.7871.46/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
             "runtimeArgs": [
                 "--disable-extensions-except=${workspaceFolder}/dist",

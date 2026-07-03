@@ -1,6 +1,3 @@
-// This script should run on any page that starts with:
-// https://www.boaterexam.com/quizzes/90723409/
-
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as References from "effect/References";
