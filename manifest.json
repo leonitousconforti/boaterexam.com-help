@@ -1,0 +1,18 @@
+{
+    "manifest_version": 3,
+    "name": "boaterexam.com-help",
+    "description": "Automates selected boaterexam.com pages.",
+    "version": "0.0.0",
+    "content_scripts": [
+        {
+            "matches": ["https://www.boaterexam.com/quizzes/*"],
+            "js": ["dist/exam.js"],
+            "run_at": "document_idle"
+        },
+        {
+            "matches": ["https://www.boaterexam.com/course/content/*"],
+            "js": ["dist/course-content.js"],
+            "run_at": "document_idle"
+        }
+    ]
+}
