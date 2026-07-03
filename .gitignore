@@ -1,6 +1,7 @@
 .direnv/
 
 dist/
+chrome/
 node_modules/
 
 boaterexam.com-help.zip

@@ -11,6 +11,7 @@
     "type": "module",
     "scripts": {
         "prepare": "effect-language-service patch",
+        "chrome": "npx @puppeteer/browsers install chrome@stable",
         "zip": "zip -r boaterexam.com-help.zip dist manifest.json README.md",
         "build": "tsc && tsup"
     },

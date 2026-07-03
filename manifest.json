@@ -7,12 +7,12 @@
     "content_scripts": [
         {
             "matches": ["https://www.boaterexam.com/quizzes/*"],
-            "js": ["dist/exam.js"],
+            "js": ["exam.js"],
             "run_at": "document_idle"
         },
         {
             "matches": ["https://www.boaterexam.com/course/content/*"],
-            "js": ["dist/course-content.js"],
+            "js": ["course-content.js"],
             "run_at": "document_idle"
         }
     ]
