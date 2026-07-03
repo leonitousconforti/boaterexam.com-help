@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Chrome (Extension Loaded)",
+            "type": "chrome",
+            "request": "launch",
+            "url": "https://www.boaterexam.com/",
+            "webRoot": "${workspaceFolder}",
+            "runtimeExecutable": "stable",
+            "runtimeArgs": [
+                "--disable-extensions-except=${workspaceFolder}",
+                "--load-extension=${workspaceFolder}",
+                "--user-data-dir=${workspaceFolder}/.vscode/chrome-profile"
+            ]
+        }
+    ]
+}
