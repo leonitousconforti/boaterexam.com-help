@@ -1,4 +1,5 @@
 {
+    "$schema": "https://json.schemastore.org/chrome-manifest.json",
     "manifest_version": 3,
     "name": "boaterexam.com-help",
     "description": "Automates selected boaterexam.com pages.",
