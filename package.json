@@ -21,6 +21,7 @@
     },
     "devDependencies": {
         "@effect/language-service": "0.86.3",
+        "@types/chrome": "0.2.2",
         "oxfmt": "0.57.0",
         "oxlint": "1.72.0",
         "tsup": "8.5.1",
