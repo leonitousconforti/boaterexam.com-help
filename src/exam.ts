@@ -80,11 +80,11 @@ const takeExam = Effect.gen(function* () {
         const answersText = answerLabels.map((label) => label.textContent.trim()).sort();
         const questionKey = `${questionText}-${answersText.join("-")}`;
 
-        const updatedExam = exam[questionKey] !== undefined ? exam : { ...exam, [questionKey]: answersText };
-        yield* writeExam(updatedExam);
-
-        const randomAnswer = updatedExam[questionKey][Math.floor(Math.random() * updatedExam[questionKey].length)];
+        const randomAnswer = answersText[Math.floor(Math.random() * answersText.length)];
         const randomAnserInput = answerLabels.find((label) => label.textContent.trim() === randomAnswer)!;
+
+        const updatedExam = exam[questionKey] !== undefined ? exam : { ...exam, [questionKey]: [randomAnswer] };
+        yield* writeExam(updatedExam);
 
         yield* Effect.sleep(1000);
         randomAnserInput.click();
@@ -120,7 +120,7 @@ const reviewExam = Effect.gen(function* () {
         const incorrectAnswers = Array.from(question.querySelectorAll<HTMLDivElement>(".critique-anwser"))
             .filter((div) => div.querySelector<HTMLImageElement>('img[alt="Incorrect"]') !== null)
             .map((div) => div.innerText.trim())
-            .map((text) => text.replace("\nYour Answer", ""));
+            .map((text) => text.replace("Your Answer", "").trim());
 
         const allAnswersSorted = [correctAnswer, ...incorrectAnswers].sort();
         const questionKey = `${questionText}-${allAnswersSorted.join("-")}`;
