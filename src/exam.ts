@@ -16,10 +16,7 @@ import * as BrowserRuntime from "@effect/platform-browser/BrowserRuntime";
 // ]);
 
 const ChapterSchema = Schema.TemplateLiteralParser(["Chapter ", Schema.FiniteFromString, " Quiz", Schema.String]);
-const ExamSchema = Schema.Record(
-    Schema.String,
-    Schema.Array(Schema.String).check(Schema.isMinLength(1), Schema.isMaxLength(4))
-).pipe(Schema.fromJsonString);
+const ExamSchema = Schema.Record(Schema.String, Schema.UndefinedOr(Schema.String)).pipe(Schema.fromJsonString);
 
 const AppLive = Layer.mergeAll(
     BrowserKeyValueStore.layerLocalStorage,
@@ -80,14 +77,17 @@ const takeExam = Effect.gen(function* () {
         const answersText = answerLabels.map((label) => label.textContent.trim()).sort();
         const questionKey = `${questionText}-${answersText.join("-")}`;
 
+        const maybeCorrectAnswer = exam[questionKey];
         const randomAnswer = answersText[Math.floor(Math.random() * answersText.length)];
-        const randomAnserInput = answerLabels.find((label) => label.textContent.trim() === randomAnswer)!;
+        const answerInput = answerLabels.find(
+            (label) => label.textContent.trim() === (maybeCorrectAnswer ?? randomAnswer)
+        )!;
 
-        const updatedExam = exam[questionKey] !== undefined ? exam : { ...exam, [questionKey]: [randomAnswer] };
+        const updatedExam = { ...exam, [questionKey]: maybeCorrectAnswer ?? randomAnswer };
         yield* writeExam(updatedExam);
 
         yield* Effect.sleep(1000);
-        randomAnserInput.click();
+        answerInput.click();
 
         const submitButton = document.querySelector<HTMLInputElement>(`#question_${questionNumber} [name="commit"]`)!;
         yield* Effect.sleep(1000);
@@ -124,7 +124,7 @@ const reviewExam = Effect.gen(function* () {
 
         const allAnswersSorted = [correctAnswer, ...incorrectAnswers].sort();
         const questionKey = `${questionText}-${allAnswersSorted.join("-")}`;
-        (exam as Types.Mutable<typeof exam>)[questionKey] = [correctAnswer];
+        (exam as Types.Mutable<typeof exam>)[questionKey] = correctAnswer;
     }
 
     yield* writeExam(exam);
