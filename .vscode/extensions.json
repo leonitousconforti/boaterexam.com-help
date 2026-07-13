@@ -3,7 +3,6 @@
         "editorconfig.editorconfig",
         "streetsidesoftware.code-spell-checker",
         "yoavbls.pretty-ts-errors",
-        "vitest.explorer",
         "oxc.oxc-vscode"
     ]
 }

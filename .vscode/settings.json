@@ -2,7 +2,6 @@
     "js/ts.tsdk.path": "node_modules/typescript/lib",
     "js/ts.tsdk.promptToUseWorkspaceVersion": true,
     "editor.defaultFormatter": "EditorConfig.EditorConfig",
-    "oxc.path.node": "/nix/store/z6bx3r13s1xv5qvgq703zva99cl8p4j3-nodejs-slim-26.4.0/bin/node",
     "[typescript][typescriptreact][javascript][javascriptreact][json][jsonc]": {
         "editor.defaultFormatter": "oxc.oxc-vscode"
     },
@@ -12,10 +11,8 @@
 
     "files.watcherExclude": {
         ".direnv/**": true,
-        "repos/**": true
     },
     "search.exclude": {
         ".direnv/**": true,
-        "repos/**": true
     }
 }
