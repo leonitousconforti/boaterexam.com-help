@@ -118,7 +118,8 @@ const reviewExam = Effect.gen(function* () {
 
         const incorrectAnswers = critiques
             .filter((div) => div.querySelector<HTMLImageElement>('img[alt="Incorrect"]') !== null)
-            .map(getAnswerIdentifier);
+            .map(getAnswerIdentifier)
+            .map((text) => text.replace("Your Answer", "").trim());
 
         const allAnswersSorted = [correctAnswer, ...incorrectAnswers].sort();
         const questionKey = `${questionText}-${allAnswersSorted.join("-")}`;
