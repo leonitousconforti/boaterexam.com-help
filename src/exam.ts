@@ -29,10 +29,7 @@ const loadExam: Effect.Effect<
     KeyValueStore.KeyValueStore
 > = Effect.gen(function* () {
     const storage = yield* KeyValueStore.KeyValueStore;
-
-    const currentChapterString = document.querySelector<HTMLTitleElement>("title")!.innerText;
-    const [_, currentChapter, __] = yield* Schema.decodeUnknownEffect(ChapterSchema)(currentChapterString);
-
+    const [_, currentChapter, __] = yield* Schema.decodeUnknownEffect(ChapterSchema)(document.title);
     const examString = yield* storage.get(`boaterexam.com-help_exam_${currentChapter}`);
     return examString === undefined ? {} : yield* Schema.decodeEffect(ExamSchema)(examString);
 });
@@ -42,10 +39,7 @@ const writeExam = (
 ): Effect.Effect<void, KeyValueStore.KeyValueStoreError | Schema.SchemaError, KeyValueStore.KeyValueStore> =>
     Effect.gen(function* () {
         const storage = yield* KeyValueStore.KeyValueStore;
-
-        const currentChapterString = document.querySelector<HTMLTitleElement>("title")!.innerText;
-        const [_, currentChapter, __] = yield* Schema.decodeUnknownEffect(ChapterSchema)(currentChapterString);
-
+        const [_, currentChapter, __] = yield* Schema.decodeUnknownEffect(ChapterSchema)(document.title);
         const updatedExamString = yield* Schema.encodeEffect(ExamSchema)(exam);
         yield* storage.set(`boaterexam.com-help_exam_${currentChapter}`, updatedExamString);
     });

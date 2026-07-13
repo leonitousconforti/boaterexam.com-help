@@ -33,9 +33,7 @@ Effect.gen(function* () {
     yield* storage.set(`${course}-timer`, "0");
 
     const nextButton = document.querySelector<HTMLButtonElement>("#next-button a")!;
-    while (!nextButton.checkVisibility()) {
-        yield* Effect.sleep(300);
-    }
+    while (!nextButton.checkVisibility()) yield* Effect.sleep(300);
 
     yield* Effect.sleep(600);
     nextButton.click();
