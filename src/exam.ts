@@ -136,7 +136,14 @@ Effect.gen(function* () {
         (button) => button.textContent.trim() === "View Critique"
     );
 
-    if (viewCritiqueButton && viewCritiqueButton.checkVisibility()) {
+    const congratulationsMessage = Array.from(document.querySelectorAll<HTMLHeadingElement>("h2")).find(
+        (heading) => heading.textContent.trim() === "Congratulations, you passed."
+    );
+
+    if (
+        (viewCritiqueButton && viewCritiqueButton.checkVisibility()) ||
+        (congratulationsMessage && congratulationsMessage.checkVisibility())
+    ) {
         yield* reviewExam;
     } else {
         yield* takeExam;
