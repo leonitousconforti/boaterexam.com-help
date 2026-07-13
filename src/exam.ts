@@ -44,6 +44,13 @@ const writeExam = (
         yield* storage.set(`boaterexam.com-help_exam_${currentChapter}`, updatedExamString);
     });
 
+const getAnswerIdentifier = (answer: HTMLElement) => {
+    const textContent = answer.textContent.trim();
+    if (textContent !== "") return textContent;
+    const image = answer.querySelector<HTMLImageElement>("figure img")!;
+    return image.src;
+};
+
 const takeExam = Effect.gen(function* () {
     const instructions = document.querySelector<HTMLDivElement>("#instructions")!;
     if (instructions.checkVisibility()) {
@@ -68,15 +75,12 @@ const takeExam = Effect.gen(function* () {
             document.querySelectorAll<HTMLLabelElement>(`#question_${questionNumber} .assessment-item label`)
         );
 
-        const answersText = answerLabels.map((label) => label.textContent.trim()).sort();
-        const questionKey = `${questionText}-${answersText.join("-")}`;
-
+        const answerIdentifiers = answerLabels.map(getAnswerIdentifier).sort();
+        const questionKey = `${questionText}-${answerIdentifiers.join("-")}`;
         const maybeCorrectAnswer = exam[questionKey];
-        const randomAnswer = answersText[Math.floor(Math.random() * answersText.length)];
-        const answerInput = answerLabels.find(
-            (label) => label.textContent.trim() === (maybeCorrectAnswer ?? randomAnswer)
-        )!;
-
+        const randomAnswer = answerIdentifiers[Math.floor(Math.random() * answerIdentifiers.length)];
+        const correctAnswerIdentifier = maybeCorrectAnswer ?? randomAnswer;
+        const answerInput = answerLabels.find((label) => getAnswerIdentifier(label) === correctAnswerIdentifier)!;
         const updatedExam = { ...exam, [questionKey]: maybeCorrectAnswer ?? randomAnswer };
         yield* writeExam(updatedExam);
 
@@ -107,14 +111,14 @@ const reviewExam = Effect.gen(function* () {
             .querySelector<HTMLDivElement>(".critique-question div:nth-child(2)")!
             .textContent.trim();
 
-        const correctAnswer = Array.from(question.querySelectorAll<HTMLDivElement>(".critique-anwser"))
-            .find((div) => div.querySelector<HTMLImageElement>('img[alt="Correct"]') !== null)!
-            .textContent.trim();
+        const critiques = Array.from(question.querySelectorAll<HTMLDivElement>(".critique-anwser"));
+        const correctAnswer = getAnswerIdentifier(
+            critiques.find((div) => div.querySelector<HTMLImageElement>('img[alt="Correct"]') !== null)!
+        );
 
-        const incorrectAnswers = Array.from(question.querySelectorAll<HTMLDivElement>(".critique-anwser"))
+        const incorrectAnswers = critiques
             .filter((div) => div.querySelector<HTMLImageElement>('img[alt="Incorrect"]') !== null)
-            .map((div) => div.innerText.trim())
-            .map((text) => text.replace("Your Answer", "").trim());
+            .map(getAnswerIdentifier);
 
         const allAnswersSorted = [correctAnswer, ...incorrectAnswers].sort();
         const questionKey = `${questionText}-${allAnswersSorted.join("-")}`;
