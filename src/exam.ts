@@ -46,7 +46,7 @@ const writeExam = (
 
 const getAnswerIdentifier = (answer: HTMLElement) => {
     const textContent = answer.textContent.trim();
-    if (textContent !== "") return textContent;
+    if (textContent !== "" && textContent !== "Your Answer") return textContent;
     const image = answer.querySelector<HTMLImageElement>("figure img")!;
     return image.src;
 };
